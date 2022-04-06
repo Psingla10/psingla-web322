@@ -18,19 +18,31 @@ const path = require('path');
 const app= express();
 const siteRoutes = require('./routes/siteRoutes'); // SITE ROUTES
 const handlebars = require('express-handlebars');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+
 //instead of app.set('view engine', 'handlebars'); 
 app.set('view engine', 'hbs');
 //instead of app.engine('handlebars', handlebars({
 app.engine('hbs', handlebars.engine({
 layoutsDir: __dirname + '/views/layouts',
-//new configuration parameter
+//new configuration parameter,
+
 extname: 'hbs'
 }));
+app.use(express.json());
 
+app.use(session({secret: 'singla', saveUninitialized: false, resave: false}));
 
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended:true }));
 // USE STATIC FILES (CSS, JS, IMAGES)
 app.use(express.static(path.join(__dirname, 'public')));
+const mealRoutes = require('./routes/mealsRoutes'); // MEAL ROUTES
+const loadRoutes = require('./routes/load-dataRoutes'); // LOAD DATA ROUTES
+siteRoutes(app);
+mealRoutes(app);
+loadRoutes(app);
 /*
 //home
 app.get("/",function(req,res){
