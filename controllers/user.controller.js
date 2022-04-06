@@ -36,14 +36,13 @@ module.exports = {
                   
                 }
             });
-        }  
+        },  
         
         
-    },
+    
     login(req, res, next){
         const { username,password,role } = req.body;
-        //cont user=username;
-console.log(username,password,role);
+        
         UserModel.find({username:{$eq:username} ,password:{$eq:password},role:{$eq:role}}, 
             function(err, data) {
                 if(err){
@@ -65,8 +64,9 @@ console.log(username,password,role);
 
                   //  res.send(data);
                 }
-            });  
-
+            }
+            );  
+        
          /*User.login(username, password).then(data=>{
             //console.log(data);
                if(data.length>0)
@@ -99,5 +99,7 @@ console.log(username,password,role);
 
         }
     }
+}
+
 
   
